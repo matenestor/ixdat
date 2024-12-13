@@ -50,6 +50,7 @@ class DataSeries(Saveable):
     def data(self):
         """The data as a np.array, loaded the first time it is needed."""
         if self._data is None:
+            # TODO @SQL don't inherit `load_data()` form Saveable...
             self._data = self.load_data()  # inherited from Savable.
         return self._data
 
@@ -182,6 +183,7 @@ class Field(DataSeries):
     def data(self):
         """When loading data, Field checks that its dimensions match its # of axes"""
         if self._data is None:
+            # TODO @SQL don't inherit `load_data()` form Saveable...
             self._data = self.load_data()
             if len(self._data.shape) != self.N_dimensions:
                 raise AxisError(
@@ -290,6 +292,7 @@ class ConstantValue(ValueSeries):
     def data(self):
         if self._expanded_data is None:
             if self._data is None:
+                # TODO @SQL don't inherit `load_data()` form Saveable
                 self._data = self.load_data()  # inherited from Savable.
             self._expanded_data = np.ones(self.t.shape) * self._data
         return self._expanded_data

@@ -1411,9 +1411,15 @@ class Measurement(Saveable):
             aliases=new_aliases,
         )
         # don't want the original calculators, component measurements, or series:
-        del obj_as_dict["c_ids"]
-        del obj_as_dict["m_ids"]
-        del obj_as_dict["s_ids"]
+        # TODO @SQLA not needed for DB, but important for runtime
+        #  extra_linkers: the IDs need to be filled to preserve Ixdat's laziness
+        #   "component_measurements": ("measurements", "m_ids"),
+        #   "measurement_calculators": ("calculators", "c_ids"),
+        #   "measurement_series": ("data_series", "s_ids"),
+        if False:
+            del obj_as_dict["c_ids"]
+            del obj_as_dict["m_ids"]
+            del obj_as_dict["s_ids"]
         return cls.from_dict(obj_as_dict)
 
     def join(self, other, join_on=None):
